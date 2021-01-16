@@ -8,7 +8,7 @@ local ip = "192.168.0.22"
 local dest = {ip, port}
 local number = 0
 local station = "Canut"
-
+local volume = 90
 
 function init()
   station_name()
@@ -27,6 +27,9 @@ function redraw()
   screen.text(station)
   screen.font_face(0)
   screen.font_size(8)
+  screen.move(46, 55)
+  screen.text("Volume : ")
+  screen.text(volume)
   screen.update()
 end
 
@@ -69,6 +72,15 @@ function enc(n, d)
   if n == 2 then
     number = number + d
     station_name()
+  end
+  if n == 3 then
+    volume = (volume+d)
+    if volume >= 130 then
+      volume = 130
+    elseif volume <=0 then
+      volume = 0
+    end
+    osc.send(dest, "/vol", {volume})
   end
   redraw()
 end
