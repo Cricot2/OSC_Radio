@@ -15,11 +15,13 @@ current_dir = os.path.dirname(__file__)
 sound = os.path.join(current_dir, "soundfiles")
 os.makedirs(sound, exist_ok=True)
 shime = os.path.join(sound, "1.wav")
-os.popen(f"play {shime}")
-
 instance = vlc.Instance('--verbose 2'.split())
 player = instance.media_player_new()
-player.audio_set_volume(90)
+
+
+def init():
+    os.popen(f"play {shime}")
+    player.audio_set_volume(90)
 
 
 def get_ip():
@@ -78,6 +80,7 @@ def shutdown(args, state):
 
 
 if __name__ == "__main__":
+    init()
     dispatcher.map("/play", radio_station)
     dispatcher.map("/stop", radio_stop)
     dispatcher.map("/off", shutdown)
