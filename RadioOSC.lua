@@ -18,6 +18,7 @@ end
 
 function redraw()
   screen.clear()
+  screen.level(6)
   screen.move(1, 12)
   screen.text("OSC RADIO.")
   screen.move(24, 42)
