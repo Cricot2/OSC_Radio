@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-# https://alsa.opensrc.org/How_to_use_softvol_to_control_the_master_volume // pour creer un ctl volume.
 
 import os
 import socket
+import time
+import random
 
 from pythonosc import dispatcher
 from pythonosc import osc_server
@@ -13,14 +14,14 @@ from urls import *
 
 current_dir = os.path.dirname(__file__)
 sound = os.path.join(current_dir, "soundfiles")
-os.makedirs(sound, exist_ok=True)
-shime = os.path.join(sound, "1.wav")
+scrub = os.path.join(current_dir, "scrub")
 instance = vlc.Instance('--verbose 2'.split())
 player = instance.media_player_new()
 vol_path = os.path.join(current_dir, "vol.txt")
 
 
 def init():
+    shime = os.path.join(sound, "1.wav")
     os.popen(f"play {shime}")
     player.audio_set_volume(get_current_vol())
 
@@ -51,35 +52,29 @@ def get_ip():
     return IP
 
 
-dispatcher = dispatcher.Dispatcher()
-server = osc_server.ThreadingOSCUDPServer((get_ip(), 5000), dispatcher)
-
-
-def killRadio():
-    player.stop()
+def play_radio(radio):
+    player.set_mrl(radio)
+    choosed_file = random.choice(os.listdir(scrub))
+    scrub_radio = vlc.MediaPlayer(os.path.join(scrub, choosed_file))
+    scrub_radio.play()
+    time.sleep(1)
     player.play()
 
 
 def radio_station(args, station):
     if args == "/play": 
         if station == 0:      
-            player.set_mrl(canut)
-            killRadio()  
+            play_radio(canut)  
         elif station == 1:
-            player.set_mrl(musique)
-            killRadio()  
+            play_radio(musique)  
         elif station == 2:
-            player.set_mrl(info)
-            killRadio()  
+            play_radio(info)  
         elif station == 3:
-            player.set_mrl(inter)
-            killRadio()  
+            play_radio(inter)  
         elif station == 4:
-            player.set_mrl(culture)
-            killRadio()  
+            play_radio(culture)  
         elif station == 5:
-            player.set_mrl(fip)
-            killRadio()  
+            play_radio(fip)  
 
 
 def volum_handler(v, args, val):
@@ -101,6 +96,8 @@ def shutdown(args, state):
 if __name__ == "__main__":
     try:
         init()
+        dispatcher = dispatcher.Dispatcher()
+        server = osc_server.ThreadingOSCUDPServer((get_ip(), 5000), dispatcher)
         dispatcher.map("/play", radio_station)
         dispatcher.map("/stop", radio_stop)
         dispatcher.map("/off", shutdown)
@@ -108,4 +105,3 @@ if __name__ == "__main__":
         server.serve_forever()
     except KeyboardInterrupt:
         print("STOP")
-        server.server_close()
