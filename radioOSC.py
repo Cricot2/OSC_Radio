@@ -3,7 +3,6 @@
 
 import os
 import socket
-from sys import exec_prefix
 
 from pythonosc import dispatcher
 from pythonosc import osc_server
