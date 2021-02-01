@@ -35,15 +35,17 @@ def save_datas(val_vol=50, val_station="culture"):
 
 def get_volume():
     with open(storage_path, "r") as f:
-        last_vol = json.load(f)
-        if not last_vol:
+        data = json.load(f)
+        if not data:
             return 50
-        return int(last_vol.get("vol"))
+        return int(data.get("vol"))
 
 
 def get_station():
     with open(storage_path, "r") as f:
         data = json.load(f)
+        if not data:
+            return "culture"
         last_sation = str(data.get("station"))
         return last_sation
 
