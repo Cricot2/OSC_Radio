@@ -11,7 +11,7 @@ from pythonosc import osc_server
 
 import vlc
 
-from urls import *
+from urls import STATIONS
 
 current_dir = os.path.dirname(__file__)
 sound = os.path.join(current_dir, "soundfiles")
@@ -22,23 +22,30 @@ storage_path = os.path.join(current_dir, "vol.json")
 
 
 def init():
-    shime = os.path.join(sound, "1.wav")
-    os.popen(f"play {shime}")
-    player.audio_set_volume(get_current_vol())
+    player.audio_set_volume(get_volume())
+    last_sation = get_station()
+    play_radio(STATIONS.get(last_sation))
+    
 
-
-def save_current_vol(val):
-    data = {"vol": val}
+def save_datas(val_vol=50, val_station="culture"):
+    data = {"vol": val_vol, "station": val_station}
     with open(storage_path, "w") as f:
         json.dump(data, f, indent=4)
 
 
-def get_current_vol():
+def get_volume():
     with open(storage_path, "r") as f:
         last_vol = json.load(f)
         if not last_vol:
             return 50
         return int(last_vol.get("vol"))
+
+
+def get_station():
+    with open(storage_path, "r") as f:
+        data = json.load(f)
+        last_sation = str(data.get("station"))
+        return last_sation
 
 
 def get_ip():
@@ -65,22 +72,28 @@ def play_radio(radio):
 def radio_station(args, station):
     if args == "/play":
         if station == 0:
-            play_radio(canut)
+            play_radio(STATIONS.get("canut"))
+            save_datas(val_station="canut")
         elif station == 1:
-            play_radio(musique)
+            play_radio(STATIONS.get("musique"))
+            save_datas(val_station="musique")
         elif station == 2:
-            play_radio(info)
+            play_radio(STATIONS.get("info"))
+            save_datas(val_station="info")
         elif station == 3:
-            play_radio(inter)
+            play_radio(STATIONS.get("inter"))
+            save_datas(val_station="inter")
         elif station == 4:
-            play_radio(culture)
+            play_radio(STATIONS.get("culture"))
+            save_datas(val_station="culture")
         elif station == 5:
-            play_radio(fip)
+            play_radio(STATIONS.get("fip"))
+            save_datas(val_station="fip")
 
 
 def volume_handler(v, args, val):
     player.audio_set_volume(int(val))
-    save_current_vol(int(val))
+    save_datas(val_vol=int(val))
 
 
 def radio_stop(args, state):
