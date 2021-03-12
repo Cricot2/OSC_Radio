@@ -22,12 +22,13 @@ storage_path = os.path.join(current_dir, "vol.json")
 
 
 def init():
+    os.popen("sudo alsactl --file=/etc/wm8960-soundcard/wm8960_asound.state restore")
     player.audio_set_volume(get_volume())
     last_sation = get_station()
     play_radio(STATIONS.get(last_sation))
     
 
-def save_datas(val_vol=50, val_station="culture"):
+def save_datas(val_vol=30, val_station="culture"):
     data = {"vol": val_vol, "station": val_station}
     with open(storage_path, "w") as f:
         json.dump(data, f, indent=4)
@@ -37,15 +38,13 @@ def get_volume():
     with open(storage_path, "r") as f:
         data = json.load(f)
         if not data:
-            return 50
+            return 30
         return int(data.get("vol"))
 
 
 def get_station():
     with open(storage_path, "r") as f:
         data = json.load(f)
-        if not data:
-            return "culture"
         last_sation = str(data.get("station"))
         return last_sation
 
@@ -64,10 +63,6 @@ def get_ip():
 
 def play_radio(radio):
     player.set_mrl(radio)
-    choosed_file = random.choice(os.listdir(scrub))
-    scrub_radio = vlc.MediaPlayer(os.path.join(scrub, choosed_file))
-    scrub_radio.play()
-    time.sleep(1)
     player.play()
 
 
@@ -94,9 +89,21 @@ def radio_station(args, station):
 
 
 def volume_handler(v, args, val):
-    player.audio_set_volume(int(val))
-    save_datas(val_vol=int(val))
+    try:
+        player.audio_set_volume(int(val))
+        station = get_station()
+        save_datas(val_vol=int(val), val_station=station)
+    except Exception:
+        pass
 
+
+def vol_speakers(v, args, speakers):
+    os.popen(f"amixer -c 2 set Speaker {speakers}")  # 0 - 127
+
+
+def vol_headphones(v, args, headphones):
+    os.popen(f"amixer -c 2 set Headphone {headphones}")  # 0 - 127
+        
 
 def radio_stop(args, state):
     if state == 1:
@@ -118,6 +125,8 @@ if __name__ == "__main__":
         dispatcher.map("/stop", radio_stop)
         dispatcher.map("/off", shutdown)
         dispatcher.map("/vol", volume_handler, "volume")
+        dispatcher.map("/speakers", vol_speakers, "speakers")
+        dispatcher.map("/headphones", vol_headphones, "headphones")
         server.serve_forever()
     except KeyboardInterrupt:
         print("STOP")
