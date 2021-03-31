@@ -98,11 +98,11 @@ def volume_handler(v, args, val):
 
 
 def vol_speakers(v, args, speakers):
-    os.popen(f"amixer -c 2 set Speaker {speakers}")  # 0 - 127
+    os.popen(f"amixer -c 1 set Speaker {speakers}")  # 0 - 127
 
 
 def vol_headphones(v, args, headphones):
-    os.popen(f"amixer -c 2 set Headphone {headphones}")  # 0 - 127
+    os.popen(f"amixer -c 1 set Headphone {headphones}")  # 0 - 127
         
 
 def radio_stop(args, state):
