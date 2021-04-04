@@ -1,0 +1,51 @@
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    </head>
+
+    <title>OSC RADIO</title>
+    <center>
+        <h1>Rpi Radio Controler</h1>
+    </center>
+
+    <body>
+
+        <center>
+
+                <li><a href="/canut/1" class="button">Radio canut</a></li>
+                <li><a href="/musique/1" class="button">France Musique</a></li>
+                <li><a href="/info/1" class="button">France Info</a></li>
+                <li><a href="/inter/1" class="button">France Inter</a></li>
+                <li><a href="/culture/1" class="button">France Culture</a></li>
+                <li><a href="/fip/1" class="button">FIP</a></li>
+
+                <div class="espace">
+
+                    <li><a href="/stop/1" class="button">STOP</a></li>
+                    <li><a href="/off/1" class="button">Power OFF</a></li>
+
+                </div>
+
+                    <div class="slidecontainer">
+                        <form method="POST" action="getvol">
+                            <input type="range" min="0.0" max="1.0" step="0.01" class="slider" id="myRange" name="volslider">
+                            <p>Volume: <span id="vol" name="volslider"></span></p>
+                        </form>
+                    </div>
+
+                    <script>
+                        var slider = document.getElementById("myRange");
+                        var output = document.getElementById("vol");
+                        output.innerHTML = slider.value;
+
+                        slider.oninput = function () {
+                            output.innerHTML = this.value;
+                        }
+                    </script>
+
+        </center>
+    </body>
+
+</html>

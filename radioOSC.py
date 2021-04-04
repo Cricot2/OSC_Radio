@@ -12,10 +12,10 @@ import vlc
 
 from urls import STATIONS
 
+
 current_dir = os.path.dirname(__file__)
 sound = os.path.join(current_dir, "soundfiles")
-scrub = os.path.join(current_dir, "scrub")
-instance = vlc.Instance("--verbose 2".split())
+instance = vlc.Instance()
 player = instance.media_player_new()
 storage_path = os.path.join(current_dir, "vol.json")
 
@@ -42,7 +42,7 @@ def get_ip():
     return IP
 
 
-def save_datas(val_vol=30, val_station="culture"):
+def save_datas(val_vol=50, val_station="culture"):
     data = {"vol": val_vol, "station": val_station}
     with open(storage_path, "w") as f:
         json.dump(data, f, indent=4)
@@ -112,7 +112,6 @@ def radio_stop(args, state):
 
 def shutdown(args, state):
     if state == 1:
-        server.server_close()
         os.system("sudo halt -p")
 
 
@@ -120,7 +119,7 @@ if __name__ == "__main__":
     try:
         init()
         dispatcher = dispatcher.Dispatcher()
-        server = osc_server.ThreadingOSCUDPServer((get_ip(), 5000), dispatcher)
+        server = osc_server.ThreadingOSCUDPServer((get_ip(), 5000),dispatcher)
         dispatcher.map("/play", radio_station)
         dispatcher.map("/stop", radio_stop)
         dispatcher.map("/off", shutdown)
