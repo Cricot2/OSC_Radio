@@ -49,10 +49,19 @@ def action(deviceName, action):
         client.send_message("/stop", 1)
     elif deviceName == "off":
         client.send_message("/off", 1)
+    elif deviceName == "off":
+        client.send_message("/off", 1)
     return render_template('index.html')
 
 
+@app.route('/get_vol')
+def slide():
+    slide_val = request.args.get('slide_val')
+    client.send_message("/vol", slide_val)
+    return slide_val
+
+
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=1111)
+    app.run(debug=True, host="0.0.0.0", port=12345)
 
 

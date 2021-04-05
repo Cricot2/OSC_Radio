@@ -7,43 +7,53 @@
 
     <title>OSC RADIO</title>
     <center>
-        <h1>Rpi Radio Controler</h1>
+        <h1>Radio</h1>
     </center>
 
     <body>
 
         <center>
 
-                <li><a href="/canut/1" class="button">Radio canut</a></li>
-                <li><a href="/musique/1" class="button">France Musique</a></li>
-                <li><a href="/info/1" class="button">France Info</a></li>
-                <li><a href="/inter/1" class="button">France Inter</a></li>
-                <li><a href="/culture/1" class="button">France Culture</a></li>
-                <li><a href="/fip/1" class="button">FIP</a></li>
+            <div class="buttonContainer">
 
                 <div class="espace">
-
-                    <li><a href="/stop/1" class="button">STOP</a></li>
-                    <li><a href="/off/1" class="button">Power OFF</a></li>
+                    <a href="/canut/1" class="button1">Radio Canut</a>
+                    <a href="/musique/1" class="button2">France Musique</a>
+                </div>
+                <div class="espace">
+                    <a href="/info/1" class="button3">France Info</a>
+                    <a href="/inter/1" class="button4">France Inter</a>
+                </div>
+                <div class="espace">
+                    <a href="/culture/1" class="button5">France Culture</a>
+                    <a href="/fip/1" class="button6">FIP</a>
+                </div>
+                <div class="espace">
+                    <a href="/stop/1" class="button7">STOP</a>
+                    <a href="/off/1" class="button8">Power OFF</a>
 
                 </div>
 
-                    <div class="slidecontainer">
-                        <form method="POST" action="getvol">
-                            <input type="range" min="0.0" max="1.0" step="0.01" class="slider" id="myRange" name="volslider">
-                            <p>Volume: <span id="vol" name="volslider"></span></p>
-                        </form>
-                    </div>
+            </div>
 
-                    <script>
-                        var slider = document.getElementById("myRange");
-                        var output = document.getElementById("vol");
-                        output.innerHTML = slider.value;
+            <!-- <div class="slidecontainer">
+                <form method="POST" action="getvol">
+                    <input type="range" min="0.0" max="1.0" step="0.01" class="slider" id="myRange" name="volslider">
+                    <p>Volume: <span id="vol" name="volslider"></span></p>
+                    <input type="submit" value="submit" />
+                </form>
+            </div>
 
-                        slider.oninput = function () {
-                            output.innerHTML = this.value;
-                        }
-                    </script>
+            <script>
+                var slider = document.getElementById("myRange");
+                var output = document.getElementById("vol");
+                output.innerHTML = slider.value;
+
+                slider.oninput = function () {
+                    output.innerHTML = this.value;
+                }
+
+            </script> -->
 
         </center>
     </body>
