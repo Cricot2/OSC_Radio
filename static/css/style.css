@@ -15,31 +15,30 @@ h1 {
 }
 
 .espace {
-  margin-top: 60;
+  margin-top: 40;
 }
-
 .button1 {
   background-color: #3f2e39; 
   color:white;
   padding: 15px 32px;
-  width: 140px;
+  width: 150px;
   height: 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 18px;
+  font-size: 20px;
   border-radius: 28px;
 }
 .button2 {
   background-color: #af4c6d; 
   color:white;
   padding: 15px 32px;
-  width: 140px;
+  width: 150px;
   height: 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 18px;
+  font-size: 20px;
   margin-left: 30;
   border-radius: 28px;
 }
@@ -47,24 +46,24 @@ h1 {
   background-color: #e7cd36; 
   color:black;
   padding: 15px 32px;
-  width: 140px;
+  width: 150px;
   height: 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 18px;
+  font-size: 20px;
   border-radius: 28px;
 }
 .button4 {
   background-color: #af4c51; 
   color:white;
   padding: 15px 32px;
-  width: 140px;
+  width: 150px;
   height: 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 18px;
+  font-size: 20px;
   margin-left: 30;
   border-radius: 28px;
 }
@@ -72,24 +71,24 @@ h1 {
   background-color: #af4c8e; 
   color:white;
   padding: 15px 32px;
-  width: 140px;
+  width: 150px;
   height: 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 18px;
+  font-size: 20px;
   border-radius: 28px;
 }
 .button6 {
   background-color: #af4c6d; 
   color:white;
   padding: 15px 32px;
-  width: 140px;
+  width: 150px;
   height: 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 18px;
+  font-size: 20px;
   margin-left: 30;
   border-radius: 28px;
 }
@@ -97,24 +96,64 @@ h1 {
   background-color: #cecece; 
   color:black;
   padding: 15px 32px;
-  width: 140px;
+  width: 150px;
   height: 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 18px;
+  font-size: 20px;
   border-radius: 28px;
 }
 .button8 {
   background-color: #cecece; 
   color:black;
   padding: 15px 32px;
-  width: 140px;
+  width: 150px;
   height: 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 18px;
+  font-size: 20px;
   margin-left: 30;
   border-radius: 28px;
+}
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+  margin-top: 60px;
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 24%; /* Full-width */
+  height: 30px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  border-radius: 28px;
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4c82af; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4c74af; /* Green background */
+  cursor: pointer; /* Cursor on hover */
 }

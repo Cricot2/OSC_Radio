@@ -33,27 +33,29 @@
                     <a href="/off/1" class="button8">Power OFF</a>
 
                 </div>
-
             </div>
 
-            <!-- <div class="slidecontainer">
-                <form method="POST" action="getvol">
-                    <input type="range" min="0.0" max="1.0" step="0.01" class="slider" id="myRange" name="volslider">
-                    <p>Volume: <span id="vol" name="volslider"></span></p>
-                    <input type="submit" value="submit" />
-                </form>
+            <div id="slidecontainer">
+                <input type="range" min="0" max="127" value="" id="range1" class="slider">
+                <p>Volume: <span id="range1_value"></span></p>
             </div>
 
             <script>
-                var slider = document.getElementById("myRange");
-                var output = document.getElementById("vol");
+                var slider = document.getElementById("range1");
+                var output = document.getElementById("range1_value");
                 output.innerHTML = slider.value;
 
                 slider.oninput = function () {
-                    output.innerHTML = this.value;
+                    output.innerHTML = slider.value;
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                        }
+                    };
+                    xhttp.open("GET", "/set_speed?speed=" + slider.value, true);
+                    xhttp.send("/set_speed?speed=" + slider.value, true);
                 }
-
-            </script> -->
+            </script>
 
         </center>
     </body>
