@@ -5,7 +5,6 @@ from types import MethodType
 from flask import Flask, render_template, request, render_template_string
 from pythonosc import udp_client
 
-TPL = ""
 
 PORT = 5000
 app = Flask(__name__)
@@ -51,19 +50,16 @@ def action(deviceName, action):
         client.send_message("/off", 1)
     elif deviceName == "off":
         client.send_message("/off", 1)
-    return render_template('index.html')
+    return render_template("index.html")
 
 
 @app.route("/set_speed")
 def set_speed():
     volume = int(request.args.get("speed"))
-    print(volume)
-    client.send_message('/vol', volume)
+    client.send_message("/vol", volume)
 
-    return render_template('index.html')
-  
+    return render_template("index.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=12345)
-
-
