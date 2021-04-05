@@ -90,7 +90,7 @@ def radio_station(args, station):
 
 def volume_handler(v, args, val):
     try:
-        player.audio_set_volume(int(val))
+        player.audio_set_volume(int(val))  # 0 - 127
         station = get_station()
         save_datas(val_vol=int(val), val_station=station)
     except Exception:
