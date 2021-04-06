@@ -152,8 +152,9 @@ h1 {
 }
 
 .slider::-moz-range-thumb {
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
+  border-radius: 15px;
+  width: 30px; /* Set a specific slider handle width */
+  height: 30px; /* Slider handle height */
   background: #4c74af; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }

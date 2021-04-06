@@ -48,18 +48,16 @@ def action(deviceName, action):
         client.send_message("/stop", 1)
     elif deviceName == "off":
         client.send_message("/off", 1)
-    elif deviceName == "off":
-        client.send_message("/off", 1)
     return render_template("index.html")
 
 
-@app.route("/set_speed")
+@app.route("/set_volume")
 def set_speed():
-    volume = int(request.args.get("speed"))
+    volume = int(request.args.get("volume"))
     client.send_message("/vol", volume)
 
     return render_template("index.html")
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=12345)
+    app.run(debug=False, host="0.0.0.0", port=12345)
