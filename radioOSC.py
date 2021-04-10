@@ -28,7 +28,7 @@ def init():
     player.audio_set_volume(get_volume())
     last_sation = get_station()
     play_radio(STATIONS.get(last_sation))
-    
+
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -103,7 +103,7 @@ def vol_speakers(v, args, speakers):
 
 def vol_headphones(v, args, headphones):
     os.popen(f"amixer -c 0 set Headphone {headphones}")  # 0 - 127
-        
+
 
 def radio_stop(args, state):
     if state == 1:
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     try:
         init()
         dispatcher = dispatcher.Dispatcher()
-        server = osc_server.ThreadingOSCUDPServer((get_ip(), 5000),dispatcher)
+        server = osc_server.ThreadingOSCUDPServer((get_ip(), 5000), dispatcher)
         dispatcher.map("/play", radio_station)
         dispatcher.map("/stop", radio_stop)
         dispatcher.map("/off", shutdown)
@@ -130,4 +130,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         save_datas()
         print("STOP")
-
