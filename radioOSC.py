@@ -112,6 +112,7 @@ def radio_stop(args, state):
 
 def shutdown(args, state):
     if state == 1:
+        player.stop()
         os.system("sudo halt -p")
 
 
