@@ -12,22 +12,30 @@ import vlc
 
 from urls import STATIONS
 
+dispatcher = dispatcher.Dispatcher()
 
-current_dir = os.path.dirname(__file__)
-sound = os.path.join(current_dir, "soundfiles")
+CURRENT_DIR = os.path.dirname(__file__)
+SOUND = os.path.join(CURRENT_DIR, "soundfiles")
 instance = vlc.Instance()
 player = instance.media_player_new()
-storage_path = os.path.join(current_dir, "vol.json")
+STORAGE_PATH = os.path.join(CURRENT_DIR, "vol.json")
 
 
-def init():
-    os.system("sudo alsactl --file=/etc/wm8960-soundcard/wm8960_asound.state restore")
-    shime = os.path.join(sound, "1.wav")
+def main():
+    vol = get_volume()
+    station = get_station()
+    init(vol, station)
+    osc_map()
+
+
+def init(vol, station):
+    os.system(
+        "sudo alsactl --file=/etc/wm8960-soundcard/wm8960_asound.state restore")
+    shime = os.path.join(SOUND, "1.wav")
     os.popen(f"play {shime}")
     time.sleep(1)
-    player.audio_set_volume(get_volume())
-    last_sation = get_station()
-    play_radio(STATIONS.get(last_sation))
+    player.audio_set_volume(vol)
+    play_radio(STATIONS.get(station))
 
 
 def get_ip():
@@ -44,18 +52,18 @@ def get_ip():
 
 def save_datas(val_vol=50, val_station="culture"):
     data = {"vol": val_vol, "station": val_station}
-    with open(storage_path, "w") as f:
+    with open(STORAGE_PATH, "w") as f:
         json.dump(data, f, indent=4)
 
 
 def get_volume():
-    with open(storage_path, "r") as f:
+    with open(STORAGE_PATH, "r") as f:
         data = json.load(f)
         return int(data.get("vol"))
 
 
 def get_station():
-    with open(storage_path, "r") as f:
+    with open(STORAGE_PATH, "r") as f:
         data = json.load(f)
         last_sation = str(data.get("station"))
         return last_sation
@@ -66,8 +74,8 @@ def play_radio(radio):
     player.play()
 
 
-def radio_station(args, station):
-    if args == "/play":
+def radio_station(addr, station):
+    if addr == "/play":
         if station == 0:
             play_radio(STATIONS.get("canut"))
             save_datas(val_station="canut")
@@ -116,18 +124,20 @@ def shutdown(args, state):
         os.system("sudo halt -p")
 
 
+def osc_map():
+    server = osc_server.ThreadingOSCUDPServer((get_ip(), 5000), dispatcher)
+    dispatcher.map("/play", radio_station)
+    dispatcher.map("/stop", radio_stop)
+    dispatcher.map("/off", shutdown)
+    dispatcher.map("/vol", volume_handler, "volume")
+    dispatcher.map("/speakers", vol_speakers, "speakers")
+    dispatcher.map("/headphones", vol_headphones, "headphones")
+    server.serve_forever()
+
+
 if __name__ == "__main__":
     try:
-        init()
-        dispatcher = dispatcher.Dispatcher()
-        server = osc_server.ThreadingOSCUDPServer((get_ip(), 5000), dispatcher)
-        dispatcher.map("/play", radio_station)
-        dispatcher.map("/stop", radio_stop)
-        dispatcher.map("/off", shutdown)
-        dispatcher.map("/vol", volume_handler, "volume")
-        dispatcher.map("/speakers", vol_speakers, "speakers")
-        dispatcher.map("/headphones", vol_headphones, "headphones")
-        server.serve_forever()
+        main()
     except KeyboardInterrupt:
         save_datas()
         print("STOP")
