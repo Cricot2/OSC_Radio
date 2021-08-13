@@ -1,9 +1,9 @@
-#!/bin/zsh
+#!/bin/sh
 
 cd /
-cd /home/mika/Documents/OSC_Radio
+cd /home/pi/OSC_Radio
 python3 radioOSC.py &
 sleep 3
-python3 /home/mika/Documents/OSC_Radio/app.py
+python3 /home/pi/OSC_Radio/app.py
 cd /
 
